@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .job-list {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+            position: relative;
+            max-width: 600px; /* Limit the width */
+            overflow: hidden; /* Hide overflow */
+        }
+
+        .job-title {
+            font-size: 1.5em;
+            margin: 0 0 10px;
+        }
+
+        .job-info {
+            font-size: 1em;
+            color: #555;
+            margin: 0 0 10px;
+        }
+
+        .teaser-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .teaser-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .tab {
+            overflow: hidden;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .tab button {
+            background-color: #f1f1f1;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+            font-size: 1em;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border-top: none;
+            overflow: hidden;
+        }
+
+        .tabcontent p {
+            margin: 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="job-list">
+    <h1>Current Job Openings</h1>
+    
+    <!-- Job items -->
+    <div class="job-item">
+        <h2 class="job-title">Software Developer</h2>
+        <p class="job-info"><strong>Location:</strong> Sydney, NSW</p>
+        <p class="job-info"><strong>Salary:</strong> $90,000 - $120,000 per year</p>
+        <button class="teaser-button" onclick="openTeaser('job1')">View Job Teaser</button>
+    </div>
+
+    <div class="job-item">
+        <h2 class="job-title">Boilermaker - FIFO</h2>
+        <p class="job-info"><strong>Location:</strong> Perth, WA</p>
+        <p class="job-info"><strong>Salary:</strong> $55 - $70 per hour</p>
+        <button class="teaser-button" onclick="openTeaser('job2')">View Job Teaser</button>
+    </div>
+
+    <!-- Add more job items here -->
+</div>
+
+<!-- Modal for job teasers -->
+<div id="teaserModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeTeaser()">&times;</span>
+        <div id="teaserContent">
+            <h2 id="modalJobTitle"></h2>
+            <div id="Overview" class="tabcontent" style="display:block;"></div>
+            <div id="Responsibilities" class="tabcontent"></div>
+            <div id="Requirements" class="tabcontent"></div>
+        </div>
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(event, 'Overview')">Overview</button>
+            <button class="tablinks" onclick="openTab(event, 'Responsibilities')">Responsibilities</button>
+            <button class="tablinks" onclick="openTab(event, 'Requirements')">Requirements</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openTeaser(jobId) {
+        var modal = document.getElementById("teaserModal");
+        var modalTitle = document.getElementById("modalJobTitle");
+        var overview = document.getElementById("Overview");
+        var responsibilities = document.getElementById("Responsibilities");
+        var requirements = document.getElementById("Requirements");
+
+        switch(jobId) {
+            case 'job1':
+                modalTitle.innerText = "Software Developer";
+                overview.innerHTML = `
+                    <p><strong>Location:</strong> Sydney, NSW</p>
+                    <p><strong>Salary:</strong> $90,000 - $120,000 per year</p>
+                    <p><strong>Type:</strong> Full-time</p>
+                    <p>Join our dynamic team as a Software Developer and contribute to cutting-edge projects.</p>
+                `;
+                responsibilities.innerHTML = `
+                    <ul>
+                        <li>Develop and maintain software applications</li>
+                        <li>Collaborate with cross-functional teams</li>
+                        <li>Participate in code reviews</li>
+                        <li>Troubleshoot and debug applications</li>
+                    </ul>
+                `;
+                requirements.innerHTML = `
+                    <ul>
+                        <li>Bachelor's degree in Computer Science or related field</li>
+                        <li>Proficiency in Java, Python, or C++</li>
+                        <li>Experience with web development frameworks</li>
+                        <li>Strong problem-solving skills</li>
+                    </ul>
+                `;
+                break;
+            case 'job2':
+                modalTitle.innerText = "Boilermaker - FIFO";
+                overview.innerHTML = `
+                    <p><strong>Location:</strong> Perth, WA</p>
+                    <p><strong>Salary:</strong> $55 - $70 per hour</p>
+                    <p><strong>Type:</strong> Full-time, FIFO</p>
+                    <p>Join our team of skilled Boilermakers for FIFO work in Western Australia.</p>
+                `;
+                responsibilities.innerHTML = `
+                    <ul>
+                        <li>Fabricate and assemble structural metal products</li>
+                        <li>Interpret technical drawings and blueprints</li>
+                        <li>Operate various welding equipment and techniques</li>
+                        <li>Conduct quality control and safety checks</li>
+                    </ul>
+                `;
+                requirements.innerHTML = `
+                    <ul>
+                        <li>Certified Boilermaker qualification</li>
+                        <li>Minimum 3 years experience in mining or construction</li>
+                        <li>FIFO experience preferred</li>
+                    </ul>
+                `;
+                break;
+            // Add cases for other jobs here
+        }
+
+        modal.style.display = "block";
+    }
+
+    function closeTeaser() {
+        var modal = document.getElementById("teaserModal");
+        modal.style.display = "none";
+    }
+
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+</body>
+</html>
